@@ -18,3 +18,7 @@ Route::get('/', function () {
 Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index');
+Route::get('/relatorio-1', 'HomeController@relatorio1');
+Route::get('/relatorio-2', 'HomeController@relatorio2');
+Route::get('/relatorio-3', 'HomeController@relatorio3');
+Route::get('/relatorio-4', 'HomeController@relatorio4');

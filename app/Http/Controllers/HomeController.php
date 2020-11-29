@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -24,7 +24,46 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $users = User::all()->count();
-        return view('home', compact('users', $users));
+        return view('home');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function relatorio1()
+    {
+        return view('relatorios.relatorio1');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function relatorio2()
+    {
+        return view('relatorios.relatorio2');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function relatorio3()
+    {
+        return view('relatorios.relatorio3');
+    }
+
+        /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function relatorio4()
+    {
+        return view('relatorios.relatorio4');
     }
 }
