@@ -59,30 +59,42 @@
                             <!-- Menu Toggle Button -->
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <!-- The user image in the navbar-->
-                                <img src="http://infyom.com/images/logo/blue_logo_150x150.jpg"
-                                     class="user-image" alt="User Image"/>
+                                @if(Auth::user()->hasRole('regular'))
+                                    <img src="{{asset('images/porto.jpg')}}" class="user-image"
+                                    alt="User Image"/>
+                                @elseif(Auth::user()->hasRole('premium'))
+                                    <img src="{{asset('images/fabio.jpg')}}" class="user-image"
+                                    alt="User Image"/>
+                                @else
+                                    <img src="http://infyom.com/images/logo/blue_logo_150x150.jpg" class="user-image"
+                                    alt="User Image"/>
+                                @endif
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
                                 <span class="hidden-xs">{!! Auth::user()->name !!}</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- The user image in the menu -->
                                 <li class="user-header">
-                                    <img src="http://infyom.com/images/logo/blue_logo_150x150.jpg"
-                                         class="img-circle" alt="User Image"/>
+                                    @if(Auth::user()->hasRole('regular'))
+                                        <img src="{{asset('images/porto.jpg')}}" class="img-circle"
+                                        alt="User Image"/>
+                                    @elseif(Auth::user()->hasRole('premium'))
+                                        <img src="{{asset('images/fabio.jpg')}}" class="img-circle"
+                                        alt="User Image"/>
+                                    @else
+                                        <img src="http://infyom.com/images/logo/blue_logo_150x150.jpg" class="img-circle"
+                                        alt="User Image"/>
+                                    @endif
                                     <p>
                                         {!! Auth::user()->name !!}
-                                        <small>Member since {!! Auth::user()->created_at->format('M. Y') !!}</small>
                                     </p>
                                 </li>
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
-                                    <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
-                                    </div>
                                     <div class="pull-right">
                                         <a href="{!! url('/logout') !!}" class="btn btn-default btn-flat"
                                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                            Sign out
+                                            Deslogar
                                         </a>
                                         <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
