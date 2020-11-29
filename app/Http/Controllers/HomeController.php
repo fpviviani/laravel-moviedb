@@ -57,7 +57,7 @@ class HomeController extends Controller
         return view('relatorios.relatorio3');
     }
 
-        /**
+    /**
      * Show the application dashboard.
      *
      * @return \Illuminate\Http\Response
@@ -65,5 +65,15 @@ class HomeController extends Controller
     public function relatorio4()
     {
         return view('relatorios.relatorio4');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function relatorio5()
+    {
+        return view('relatorios.relatorio5');
     }
 }
