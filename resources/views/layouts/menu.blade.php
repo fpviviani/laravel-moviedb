@@ -12,6 +12,6 @@
         <a href="relatorio-4" >Filmes por produtora</a>
     </li>
     <li class="{{ Request::is('*relatorio-5*') ? 'active' : '' }}">
-        <a href="relatorio-5" >Filmes por produtora</a>
+        <a href="relatorio-5" >Filmes por pessoa</a>
     </li>
 @endif
