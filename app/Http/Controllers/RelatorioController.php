@@ -7,6 +7,7 @@ use Auth;
 use App\User;
 use App\Models\Genre;
 use App\Models\Movie;
+use App\Models\Person;
 use Carbon\Carbon;
 
 class relatorioController extends Controller
@@ -103,5 +104,88 @@ class relatorioController extends Controller
         }
 
         return view('relatorios.relatorio1', compact('count_movies', 'genre_name_array', 'genre_count_array', 'language_name_array', 'language_count_array', 'year_number_array', 'year_count_array'));
+    }
+
+     /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function relatorio2(Request $request)
+    {
+        $input = $request->all();
+        $gender_array = [];
+        $department_array = [];
+        $birth_array = [];
+        $place_array = [];
+        $start_date = Carbon::createFromFormat("Y", $input["birth_start"]);
+        $end_date = Carbon::createFromFormat("Y", $input["birth_end"]);
+        for($first_year = $input["birth_start"]; $first_year <= $input["birth_end"]; $first_year++){
+            $birth_array[$first_year] = 0;
+        }
+
+        $people = Person::where("birthday", ">", $start_date)->where("birthday", "<", $end_date)->get();
+        if(!in_array("all", $request["gender"])){
+            $people = $people->whereIn("gender", $request["gender"]);
+            foreach($request["gender"] as $gender){
+                $gender_array[$gender] = 0;
+            }
+        }else{
+            $gender_array["2"] = 0;
+            $gender_array["1"] = 0;
+        }
+
+        if(!in_array("all", $request["department"])){
+            if(!in_array("Acting", $request["department"])){
+                $people = $people->whereNotIn("know_for_department", $request["department"]);
+                foreach($request["department"] as $department){
+                    $department_array[$department] = 0;
+                }
+            }else{
+                $people = $people->whereIn("know_for_department", $request["department"]);
+                foreach($request["department"] as $department){
+                    $department_array[$department] = 0;
+                }
+            }
+        }else{
+            $department_array["Ator"] = 0;
+            $department_array["Produção"] = 0;
+        }
+
+        foreach($people as $person){
+            $gender_array[$person->gender]++;
+            if($person->know_for_department == "Acting"){
+                $department_array["Ator"]++;
+            }else{
+                $department_array["Produção"]++;
+            }
+            $birth_year = intval(substr(strval($person->birthday), 0, 4));
+            $birth_array[$birth_year]++;
+        }
+
+        $gender_name_array = [];
+        $gender_count_array = [];
+        $department_name_array = [];
+        $department_count_array = [];
+        $year_number_array = [];
+        $year_count_array = [];
+        foreach($gender_array as $key => $value){
+            if($key == 1){
+                array_push($gender_name_array, "Feminino");
+            }else{
+                array_push($gender_name_array, "Masculino");
+            }
+            array_push($gender_count_array, $value);
+        }
+        foreach($department_array as $key => $value){
+            array_push($department_name_array, $key);
+            array_push($department_count_array, $value);
+        }
+        foreach($birth_array as $key => $value){
+            array_push($year_number_array, $key);
+            array_push($year_count_array, $value);
+        }
+
+        return view('relatorios.relatorio2', compact('gender_name_array', 'gender_count_array', 'department_name_array', 'department_count_array', 'year_number_array', 'year_count_array'));
     }
 }

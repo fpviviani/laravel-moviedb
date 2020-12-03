@@ -3,7 +3,7 @@
 </li>
 
 @if(Auth::user()->hasRole('premium'))
-    <li class="{{ Request::is('*relatorio-3*') ? 'active' : '' }}">
-        <a href="relatorio-3" >Pessoas</a>
+    <li class="{{ Request::is('*relatorio-2*') ? 'active' : '' }}">
+        <a href="relatorio-2" >Pessoas</a>
     </li>
 @endif
