@@ -8,14 +8,14 @@ use Eloquent as Model;
  * Class Credit
  * @package App\Models
  */
-class Credit extends Model
+class Movie extends Model
 {
     /**
      * The table associated with the model
      *
      * @var string
      */
-    public $table = 'credits';
+    public $table = 'movies';
 
     /**
      * The attributes that are mass assignable
@@ -23,7 +23,7 @@ class Credit extends Model
      * @var array
      */
     public $fillable = [
-        'credit_type', 'department', 'job', 'character', 'id_movie', 'id_people'
+        'original_language', 'original_title', 'popularity', 'status', 'title', 'vote_average', 'vote_count', 'release_date', 'budget', 'revenue', 'runtime', 'id_collection'
     ];
 
     /**
@@ -32,13 +32,18 @@ class Credit extends Model
      * @var array
      */
     protected $casts = [
-        'credit_id' => 'integer',
-        'credit_type' => 'string',
-        'department' => 'string',
-        'job' => 'string',
-        'character' => 'string',
-        'id_movie' => 'integer',
-        'id_people' => 'integer',
+        'original_language' => 'string',
+        'original_title' => 'string',
+        'popularity' => 'string',
+        'status' => 'string',
+        'title' => 'string',
+        'vote_average' => 'float',
+        'vote_count' => 'integer',
+        'release_date' => 'datetime',
+        'budget' => 'float',
+        'revenue' => 'float',
+        'runtime' => 'integer',
+        'id_collection' => 'integer',
     ];
 
     // =========================================================================
@@ -46,18 +51,10 @@ class Credit extends Model
     // =========================================================================
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
-    public function movie()
+    public function movieGenre()
     {
-        return $this->belongsTo(\App\Models\Movie::class, 'movie_id', 'id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     **/
-    public function person()
-    {
-        return $this->belongsTo(\App\Models\Person::class, 'id_people', 'id');
+        return $this->hasMany(\App\Models\MovieGenre::class, 'id_movie', 'id');
     }
 }
