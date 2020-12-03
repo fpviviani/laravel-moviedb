@@ -103,7 +103,7 @@ class relatorioController extends Controller
             array_push($year_count_array, $value);
         }
 
-        return view('relatorios.relatorio1', compact('count_movies', 'genre_name_array', 'genre_count_array', 'language_name_array', 'language_count_array', 'year_number_array', 'year_count_array'));
+        return view('relatorios.relatorio1', compact('movies', 'genre_name_array', 'genre_count_array', 'language_name_array', 'language_count_array', 'year_number_array', 'year_count_array'));
     }
 
      /**
@@ -137,28 +137,32 @@ class relatorioController extends Controller
 
         if(!in_array("all", $request["department"])){
             if(!in_array("Acting", $request["department"])){
-                $people = $people->whereNotIn("know_for_department", $request["department"]);
-                foreach($request["department"] as $department){
-                    $department_array[$department] = 0;
-                }
+                $department_array["Produção"] = 0;
             }else{
-                $people = $people->whereIn("know_for_department", $request["department"]);
-                foreach($request["department"] as $department){
-                    $department_array[$department] = 0;
-                }
+                $department_array["Ator"] = 0;
             }
         }else{
             $department_array["Ator"] = 0;
             $department_array["Produção"] = 0;
         }
 
-        foreach($people as $person){
-            $gender_array[$person->gender]++;
+        foreach($people as $keyPerson => $person){
             if($person->know_for_department == "Acting"){
-                $department_array["Ator"]++;
+                if(!in_array("Acting", $request["department"]) && !in_array("all", $request["department"])){
+                    $people->forget($keyPerson);
+                    continue;
+                }else{
+                    $department_array["Ator"]++;
+                }
             }else{
-                $department_array["Produção"]++;
+                if(!in_array("else", $request["department"]) && !in_array("all", $request["department"])){
+                    $people->forget($keyPerson);
+                    continue;
+                }else{
+                    $department_array["Produção"]++;
+                }
             }
+            $gender_array[$person->gender]++;
             $birth_year = intval(substr(strval($person->birthday), 0, 4));
             $birth_array[$birth_year]++;
         }
@@ -186,6 +190,6 @@ class relatorioController extends Controller
             array_push($year_count_array, $value);
         }
 
-        return view('relatorios.relatorio2', compact('gender_name_array', 'gender_count_array', 'department_name_array', 'department_count_array', 'year_number_array', 'year_count_array'));
+        return view('relatorios.relatorio2', compact('people', 'gender_name_array', 'gender_count_array', 'department_name_array', 'department_count_array', 'year_number_array', 'year_count_array'));
     }
 }

@@ -4,6 +4,6 @@
 
 @if(Auth::user()->hasRole('premium'))
     <li class="{{ Request::is('*relatorio-2*') ? 'active' : '' }}">
-        <a href="relatorio-2" >Pessoas</a>
+        <a href="{!! route('relatorio.2')!!}" >Pessoas</a>
     </li>
 @endif

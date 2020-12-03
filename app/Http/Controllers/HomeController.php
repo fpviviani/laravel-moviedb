@@ -38,8 +38,7 @@ class HomeController extends Controller
      */
     public function relatorio1()
     {
-        $movies = Movie::all();
-        $count_movies = count($movies);
+        $movies = [];
         
         $language_name_array = [];
         $language_count_array = [];
@@ -47,7 +46,7 @@ class HomeController extends Controller
         $genre_count_array = [];
         $year_number_array = [];
         $year_count_array = [];
-        return view('relatorios.relatorio1', compact('count_movies', 'genre_name_array', 'genre_count_array', 'language_name_array', 'language_count_array', 'year_number_array', 'year_count_array'));
+        return view('relatorios.relatorio1', compact('movies', 'genre_name_array', 'genre_count_array', 'language_name_array', 'language_count_array', 'year_number_array', 'year_count_array'));
     }
 
     /**
@@ -57,17 +56,14 @@ class HomeController extends Controller
      */
     public function relatorio2()
     {
-        $movies = Movie::all();
-        $people = Person::all();
-        $count_movies = count($movies);
-        
-        $language_name_array = [];
-        $language_count_array = [];
-        $genre_name_array = [];
-        $genre_count_array = [];
+        $people = [];
+        $department_name_array = [];
+        $department_count_array = [];
+        $gender_name_array = [];
+        $gender_count_array = [];
         $year_number_array = [];
         $year_count_array = [];
-        return view('relatorios.relatorio2', compact('count_movies', 'genre_name_array', 'genre_count_array', 'language_name_array', 'language_count_array', 'year_number_array', 'year_count_array'));
+        return view('relatorios.relatorio2', compact('people', 'gender_name_array', 'gender_count_array', 'department_name_array', 'department_count_array', 'year_number_array', 'year_count_array'));
     }
 
     /**

@@ -25,13 +25,24 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
 
     @yield('css')
-    <!-- <style>
-        .main-sidebar {
-            background-image: url("{{asset('images/bg.jpg')}}");
-            background-size: cover;
-            filter: brightness(60%) blur(3px) grayscale(20%);
+    <style>
+        table, th, td {
+		  border: 1px solid black;
+		  border-collapse: collapse;
+		}
+		th, td {
+		  padding: 5px;
+		  text-align: center;
+		}
+        @media print {
+            .no-print, .no-print * {
+                display: none !important;
+            }
+            .print-only, .print-only * {
+                visibility: visible !important;
+            }
         }
-    </style> -->
+    </style>
 </head>
 
 <body class="skin-blue sidebar-mini">
