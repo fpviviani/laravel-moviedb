@@ -45,6 +45,8 @@ class relatorioController extends Controller
                 $language_array[$language] = 0;
             }
         }else{
+            $languages = ["es", "en", "fr", "pt", "jp"];
+            $movies = $movies->whereIn("original_language", $languages);
             $language_array["es"] = 0;
             $language_array["en"] = 0;
             $language_array["fr"] = 0;
@@ -67,23 +69,35 @@ class relatorioController extends Controller
         foreach($movies as $key => $movie){
             $has_genre = false;
             $genres = $movie->movieGenre;
-            foreach($genres as $genre){
-                if(in_array($genre->id_genre, $request["genre"])){
-                    $genre_model = Genre::find($genre->id_genre);
-                    $genre_array[$genre_model->name]++;
-                    $has_genre = true;
+            if(!in_array("all", $request["genre"])){
+                foreach($genres as $genre){
+                    if(in_array($genre->id_genre, $request["genre"])){
+                        $genre_model = Genre::find($genre->id_genre);
+                        $genre_array[$genre_model->name]++;
+                        $has_genre = true;
+                    }
                 }
+            }else{
+                $all_genres = ["28", "12", "16", "35", "80", "99", "18", "10751", "14", "36", "27", "10402", "10749", "878", "53", "10752", "37"];
+                $genres = $movie->movieGenre;
+                foreach($genres as $genre){
+                    if(in_array($genre->id_genre, $all_genres)){
+                        $genre_model = Genre::find($genre->id_genre);
+                        $genre_array[$genre_model->name]++;
+                    }
+                }
+                $has_genre = true;
             }
             if($has_genre == false){
                 $movies->forget($key);
             }else{
-                $language_array[$movie->original_language]++;
+                $language_array[strval($movie->original_language)]++;
                 $release_year = intval(substr(strval($movie->release_date), 0, 4));
                 $year_array[$release_year]++;
             }
         }
         $count_movies = count($movies);
-        
+
         $language_name_array = [];
         $language_count_array = [];
         $genre_name_array = [];
@@ -162,7 +176,12 @@ class relatorioController extends Controller
                     $department_array["Produção"]++;
                 }
             }
-            $gender_array[$person->gender]++;
+            if($person->gender != "1" && $person->gender != "2"){
+                $people->forget($keyPerson);
+                continue;
+            }else{
+                $gender_array[$person->gender]++;
+            }
             $birth_year = intval(substr(strval($person->birthday), 0, 4));
             $birth_array[$birth_year]++;
         }
