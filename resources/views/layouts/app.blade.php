@@ -40,6 +40,7 @@
             }
             .print-only, .print-only * {
                 visibility: visible !important;
+                word-break:break-all !important;
             }
         }
     </style>
